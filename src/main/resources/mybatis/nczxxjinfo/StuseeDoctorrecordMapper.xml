@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.nczxxj.seedoctorrecord.mapper.StuseeDoctorrecordMapper">
+    
+    <resultMap type="StuseeDoctorrecord" id="StuseeDoctorrecordResult">
+        <result property="id"    column="id"    />
+        <result property="xm"    column="xm"    />
+        <result property="xb"    column="xb"    />
+        <result property="bj"    column="bj"    />
+        <result property="ddjs"    column="ddjs"    />
+        <result property="reason"    column="reason"    />
+        <result property="jzyy"    column="jzyy"    />
+        <result property="jzks"    column="jzks"    />
+        <result property="wcsj"    column="wcsj"    />
+        <result property="hxsj"    column="hxsj"    />
+        <result property="cost"    column="cost"    />
+        <result property="ysyy"    column="ysyy"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="resulttype"    column="resulttype"    />
+        <result property="remark"    column="remark"    />
+        <result property="files"    column="files"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectStuseeDoctorrecordVo">
+        select id, xm, xb, bj, ddjs, reason, jzyy, jzks, wcsj, hxsj, cost, ysyy, create_by, resulttype, remark, files, create_time from nczx_stusee_doctorrecord
+    </sql>
+
+    <select id="selectStuseeDoctorrecordList" parameterType="StuseeDoctorrecord" resultMap="StuseeDoctorrecordResult">
+        <include refid="selectStuseeDoctorrecordVo"/>
+        <where>  
+            <if test="xm != null  and xm != ''"> and xm like concat('%', #{xm}, '%')</if>
+            <if test="xb != null "> and xb = #{xb}</if>
+            <if test="bj != null  and bj != ''"> and bj = #{bj}</if>
+            <if test="ddjs != null  and ddjs != ''"> and ddjs like concat('%', #{ddjs}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectStuseeDoctorrecordById" parameterType="Long" resultMap="StuseeDoctorrecordResult">
+        <include refid="selectStuseeDoctorrecordVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertStuseeDoctorrecord" parameterType="StuseeDoctorrecord" useGeneratedKeys="true" keyProperty="id">
+        insert into nczx_stusee_doctorrecord
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="xm != null">xm,</if>
+            <if test="xb != null">xb,</if>
+            <if test="bj != null">bj,</if>
+            <if test="ddjs != null">ddjs,</if>
+            <if test="reason != null">reason,</if>
+            <if test="jzyy != null">jzyy,</if>
+            <if test="jzks != null">jzks,</if>
+            <if test="wcsj != null">wcsj,</if>
+            <if test="hxsj != null">hxsj,</if>
+            <if test="cost != null">cost,</if>
+            <if test="ysyy != null">ysyy,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="resulttype != null">resulttype,</if>
+            <if test="remark != null">remark,</if>
+            <if test="files != null">files,</if>
+            <if test="createTime != null">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="xm != null">#{xm},</if>
+            <if test="xb != null">#{xb},</if>
+            <if test="bj != null">#{bj},</if>
+            <if test="ddjs != null">#{ddjs},</if>
+            <if test="reason != null">#{reason},</if>
+            <if test="jzyy != null">#{jzyy},</if>
+            <if test="jzks != null">#{jzks},</if>
+            <if test="wcsj != null">#{wcsj},</if>
+            <if test="hxsj != null">#{hxsj},</if>
+            <if test="cost != null">#{cost},</if>
+            <if test="ysyy != null">#{ysyy},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="resulttype != null">#{resulttype},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="files != null">#{files},</if>
+            <if test="createTime != null">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateStuseeDoctorrecord" parameterType="StuseeDoctorrecord">
+        update nczx_stusee_doctorrecord
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="xm != null">xm = #{xm},</if>
+            <if test="xb != null">xb = #{xb},</if>
+            <if test="bj != null">bj = #{bj},</if>
+            <if test="ddjs != null">ddjs = #{ddjs},</if>
+            <if test="reason != null">reason = #{reason},</if>
+            <if test="jzyy != null">jzyy = #{jzyy},</if>
+            <if test="jzks != null">jzks = #{jzks},</if>
+            <if test="wcsj != null">wcsj = #{wcsj},</if>
+            <if test="hxsj != null">hxsj = #{hxsj},</if>
+            <if test="cost != null">cost = #{cost},</if>
+            <if test="ysyy != null">ysyy = #{ysyy},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="resulttype != null">resulttype = #{resulttype},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="files != null">files = #{files},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteStuseeDoctorrecordById" parameterType="Long">
+        delete from nczx_stusee_doctorrecord where id = #{id}
+    </delete>
+
+    <delete id="deleteStuseeDoctorrecordByIds" parameterType="String">
+        delete from nczx_stusee_doctorrecord where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('学生外出看病就医信息卡')" />
+</head>
+<style>
+    .tdtextbold{
+        font-weight: 600;
+    }
+    .widthh{
+        width: 150px;
+    }
+    .width{
+        width: 200px;
+    }
+    .tdstyle{
+        border: 1px solid #009866;
+        text-align: center;
+    }
+</style>
+<body class="white-bg">
+<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+    <form class="form-horizontal m">
+        <div class="btn btn-success  dim" style="margin-bottom: 10px;" type="button" id="printbtn"><i class="fa fa-print"></i>&nbsp;打印此表</div><br>
+        <table class="table table-bordered" id="seedoctorinfo">
+            <tbody>
+            <tr>
+                <td colspan="4" style="text-align: center;font-size: 20px;font-weight: bold;">内高班学生看病就医信息卡<span style="font-size: 14px;float: right;" th:text="${#dates.format(seedoctorinfo.createTime, 'yyyy-MM-dd HH:mm:ss')}"></span></td>
+            </tr>
+            <tr>
+                <td class="tdstyle">学生班级</td>
+                <td class="tdstyle"><label th:text="${seedoctorinfo.bj}"></label></td>
+                <td class="tdstyle">学生性别</td>
+                <td class="tdstyle"><label th:text="${@dict.getLabel('sys_user_sex', seedoctorinfo.xb)}"></label></td>
+            </tr>
+            <tr>
+                <td class="tdstyle">学生姓名</td>
+                <td class="tdstyle"><label th:text="${seedoctorinfo.xm}"></label></td>
+                <td class="tdstyle">陪护教师</td>
+                <td class="tdstyle"><label th:text="${seedoctorinfo.ddjs}"></label></td>
+            </tr>
+            <tr>
+                <td class="tdstyle">看病原因</td>
+                <td class="tdstyle" colspan="3"><label th:text="${seedoctorinfo.reason}"></label></td>
+            </tr>
+            <tr>
+                <td class="tdstyle">就诊医院</td>
+                <td class="tdstyle"><label th:text="${seedoctorinfo.jzyy}"></label></td>
+                <td class="tdstyle">就诊科室</td>
+                <td class="tdstyle"><label th:text="${seedoctorinfo.jzks}"></label></td>
+            </tr>
+            <tr>
+                <td class="tdstyle">外出时间</td>
+                <td class="tdstyle"><label th:text="${#dates.format(seedoctorinfo.wcsj, 'yyyy-MM-dd HH:mm:ss')}"></label></td>
+                <td class="tdstyle">返校时间</td>
+                <td class="tdstyle"><label th:text="${#dates.format(seedoctorinfo.hxsj, 'yyyy-MM-dd HH:mm:ss')}"></label></td>
+            </tr>
+            <tr>
+                <td class="tdstyle">就诊费用</td>
+                <td class="tdstyle"><label th:text="${seedoctorinfo.cost}"></label></td>
+                <td class="tdstyle">就诊结果</td>
+                <td class="tdstyle"><label th:text="${seedoctorinfo.resulttype}"></label></td>
+            </tr>
+            <tr>
+                <td class="tdstyle">诊断用药</td>
+                <td class="tdstyle" colspan="3"><label th:text="${seedoctorinfo.ysyy}"></label></td>
+            </tr>
+            <tr>
+                <td class="tdstyle">其他情况</td>
+                <td class="tdstyle" colspan="3"><label th:text="${seedoctorinfo.remark}"></label></td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+<th:block th:include="include :: footer" />
+<script src="../static/ruoyi/js/print.js" th:src="@{/ruoyi/js/print.js}"></script>
+<script type="text/javascript">
+    document.getElementById('printbtn').onclick = function () {
+        Print('#seedoctorinfo', {
+            onStart: function () {
+                console.log('onStart', new Date())
+            },
+            onEnd: function () {
+                console.log('onEnd', new Date())
+            },
+            getStyle: function() {
+                var str = "",
+                    styles = document.querySelectorAll('style,link');
+                console.log(styles);
+                for (var i = 0; i < styles.length; i++) {
+                    str += styles[i].outerHTML;
+                }
+                return str;
+            }
+        });
+    }
+        $(function () {
+        });
+</script>
+</body>
+</html>

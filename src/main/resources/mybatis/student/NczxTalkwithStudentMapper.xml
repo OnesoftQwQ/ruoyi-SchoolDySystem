@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.student.studenttalk.mapper.NczxTalkwithStudentMapper">
+    
+    <resultMap type="NczxTalkwithStudent" id="NczxTalkwithStudentResult">
+        <result property="itemId"    column="item_id"    />
+        <result property="teachername"    column="teachername"    />
+        <result property="teacherorg"    column="teacherorg"    />
+        <result property="stuname"    column="stuname"    />
+        <result property="stusex"    column="stusex"    />
+        <result property="stuclass"    column="stuclass"    />
+        <result property="stutell"    column="stutell"    />
+        <result property="talktime"    column="talktime"    />
+        <result property="talkplace"    column="talkplace"    />
+        <result property="talkcontent"    column="talkcontent"    />
+        <result property="talkresult"    column="talkresult"    />
+        <result property="talkimg"    column="talkimg"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="createBy"    column="create_by"    />
+    </resultMap>
+
+    <sql id="selectNczxTalkwithStudentVo">
+        select t.* from nczx_talkwith_student t left join sys_user u on u.login_name = t.create_by where 1=1
+    </sql>
+
+    <select id="selectNczxTalkwithStudentList" parameterType="NczxTalkwithStudent" resultMap="NczxTalkwithStudentResult">
+        <include refid="selectNczxTalkwithStudentVo"/>
+        <where>  
+            <if test="stuname != null  and stuname != ''"> and stuname like concat('%', #{stuname}, '%')</if>
+        </where>
+        <!-- 数据范围过滤 -->
+        ${params.dataScope}
+    </select>
+    
+    <select id="selectNczxTalkwithStudentById" parameterType="Integer" resultMap="NczxTalkwithStudentResult">
+        select * from nczx_talkwith_student  where item_id = #{itemId}
+    </select>
+        
+    <insert id="insertNczxTalkwithStudent" parameterType="NczxTalkwithStudent" useGeneratedKeys="true" keyProperty="itemId">
+        insert into nczx_talkwith_student
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="teachername != null">teachername,</if>
+            <if test="teacherorg != null">teacherorg,</if>
+            <if test="stuname != null">stuname,</if>
+            <if test="stusex != null">stusex,</if>
+            <if test="stuclass != null">stuclass,</if>
+            <if test="stutell != null">stutell,</if>
+            <if test="talktime != null">talktime,</if>
+            <if test="talkplace != null">talkplace,</if>
+            <if test="talkcontent != null">talkcontent,</if>
+            <if test="talkresult != null">talkresult,</if>
+            <if test="talkimg != null">talkimg,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="createBy != null">create_by,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="teachername != null">#{teachername},</if>
+            <if test="teacherorg != null">#{teacherorg},</if>
+            <if test="stuname != null">#{stuname},</if>
+            <if test="stusex != null">#{stusex},</if>
+            <if test="stuclass != null">#{stuclass},</if>
+            <if test="stutell != null">#{stutell},</if>
+            <if test="talktime != null">#{talktime},</if>
+            <if test="talkplace != null">#{talkplace},</if>
+            <if test="talkcontent != null">#{talkcontent},</if>
+            <if test="talkresult != null">#{talkresult},</if>
+            <if test="talkimg != null">#{talkimg},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+         </trim>
+    </insert>
+
+    <update id="updateNczxTalkwithStudent" parameterType="NczxTalkwithStudent">
+        update nczx_talkwith_student
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="teachername != null">teachername = #{teachername},</if>
+            <if test="teacherorg != null">teacherorg = #{teacherorg},</if>
+            <if test="stuname != null">stuname = #{stuname},</if>
+            <if test="stusex != null">stusex = #{stusex},</if>
+            <if test="stuclass != null">stuclass = #{stuclass},</if>
+            <if test="stutell != null">stutell = #{stutell},</if>
+            <if test="talktime != null">talktime = #{talktime},</if>
+            <if test="talkplace != null">talkplace = #{talkplace},</if>
+            <if test="talkcontent != null">talkcontent = #{talkcontent},</if>
+            <if test="talkresult != null">talkresult = #{talkresult},</if>
+            <if test="talkimg != null">talkimg = #{talkimg},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+        </trim>
+        where item_id = #{itemId}
+    </update>
+
+    <delete id="deleteNczxTalkwithStudentById" parameterType="Integer">
+        delete from nczx_talkwith_student where item_id = #{itemId}
+    </delete>
+
+    <delete id="deleteNczxTalkwithStudentByIds" parameterType="String">
+        delete from nczx_talkwith_student where item_id in 
+        <foreach item="itemId" collection="array" open="(" separator="," close=")">
+            #{itemId}
+        </foreach>
+    </delete>
+
+</mapper>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+	<th:block th:include="include :: header('新增宿舍')" />
+</head>
+<body class="white-bg">
+	<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+		<form class="form-horizontal m" id="form-dormitory-add">
+			<div class="form-group">
+				<label class="col-sm-3 control-label">宿舍编号：</label>
+				<div class="col-sm-8">
+					<input name="dormitoryNum" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">宿舍类型：</label>
+				<div class="col-sm-8">
+					<select name="dormitoryType" class="form-control m-b" th:with="type=${@dict.getType('sys_dormitory_type')}">
+						<option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">宿舍区域：</label>
+				<div class="col-sm-8">
+					<input name="dormitoryRegion" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">宿舍长：</label>
+				<div class="col-sm-8">
+					<input name="dormitoryManager" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">宿舍状态：</label>
+				<div class="col-sm-8">
+					<select name="status" class="form-control m-b" th:with="type=${@dict.getType('sys_dormitorys_status')}">
+						<option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">备注：</label>
+				<div class="col-sm-8">
+					<textarea class="form-control" cols="10" rows="6" name="remark" id="remark" placeholder="请输入其他情况"></textarea>
+				</div>
+			</div>
+		</form>
+	</div>
+	<th:block th:include="include :: footer" />
+	<script th:inline="javascript">
+		var prefix = ctx + "nczxsushe/dormitory"
+		$("#form-dormitory-add").validate({
+			focusCleanup: true
+		});
+
+		function submitHandler() {
+			if ($.validate.form()) {
+				$.operate.save(prefix + "/add", $('#form-dormitory-add').serialize());
+			}
+		}
+	</script>
+</body>
+</html>

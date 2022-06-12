@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('新增看病记录')" />
+    <th:block th:include="include :: datetimepicker-css" />
+    <th:block th:include="include :: bootstrap-fileinput-css"/>
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-seedoctorrecord-add">
+            <div class="form-group">
+                <label class="col-sm-2 control-label is-required">学生班级：</label>
+                <div class="col-sm-4">
+                    <select name="bj" class="form-control m-b" th:with="type=${@dict.getType('nczx_xjsnj')}" required>
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                    </select>
+                </div>
+                <label class="col-sm-2 control-label is-required">学生性别：</label>
+                <div class="col-sm-4">
+                    <select name="xb" class="form-control m-b" th:with="type=${@dict.getType('sys_user_sex')}" required>
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label is-required">学生姓名：</label>
+                <div class="col-sm-4">
+                    <input name="xm" class="form-control" type="text" placeholder="请输入学生姓名（全名）" required>
+                </div>
+                <label class="col-sm-2 control-label is-required">陪护教师：</label>
+                <div class="col-sm-4">
+                    <input name="ddjs" class="form-control" type="text" placeholder="请输入带队教师姓名" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-2 control-label is-required">就诊原因：</label>
+                <div class="col-sm-9">
+                    <textarea class="form-control" cols="10" rows="3" name="reason" id="reason" placeholder="请输入学生就诊原因...." required></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label is-required">就诊医院：</label>
+                <div class="col-sm-4">
+                    <input name="jzyy" class="form-control" type="text" placeholder="若药店请输入药店名称" required>
+                </div>
+                <label class="col-sm-2 control-label is-required">就诊科室：</label>
+                <div class="col-sm-4">
+                    <input name="jzks" class="form-control" type="text" placeholder="若药店请输入药店名称" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label is-required">外出时间：</label>
+                <div class="col-sm-4">
+                    <div class="input-group date">
+                        <input name="wcsj" class="form-control" placeholder="请选择外出时间" readonly type="text" required>
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    </div>
+                </div>
+                <label class="col-sm-2 control-label is-required">回校时间：</label>
+                <div class="col-sm-4">
+                    <div class="input-group date">
+                        <input name="hxsj" class="form-control" placeholder="请选择回校时间" readonly type="text" required>
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label is-required">就诊费用：</label>
+                <div class="col-sm-4">
+                    <input name="cost" class="form-control" type="text" placeholder="请输入本次看病总费用，只输入数字" required>
+                </div>
+                <label class="col-sm-2 control-label is-required">就诊结果：</label>
+                <div class="col-sm-4">
+                    <select name="resulttype" class="form-control m-b" th:with="type=${@dict.getType('nczx_sedoctor_result')}" required>
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label is-required">诊断用药：</label>
+                <div class="col-sm-9">
+                    <textarea class="form-control" cols="10" rows="3" name="ysyy" id="ysyy" placeholder="请输入医生诊断及医生为学生开的药...." required></textarea>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-2 control-label is-required">其他情况：</label>
+                <div class="col-sm-9">
+                    <textarea class="form-control" cols="10" rows="3" name="remark" id="remark" placeholder="请输入看病后住医院，回宿舍，还是继续上课等等情况...." required></textarea>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">相关文件：</label>
+                <div class="col-sm-8">
+                    <input type="hidden" name="files">
+                    <div class="file-loading">
+                        <input class="form-control file-upload" id="files" name="file" type="file">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+    <th:block th:include="include :: bootstrap-fileinput-js"/>
+    <script th:inline="javascript">
+        var prefix = ctx + "nczxxjinfo/seedoctorrecord"
+        $("#form-seedoctorrecord-add").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/add", $('#form-seedoctorrecord-add').serialize());
+            }
+        }
+
+        $("input[name='wcsj']").datetimepicker({
+            format: "yyyy-mm-dd hh:ii",
+            autoclose: true
+        });
+
+        $("input[name='hxsj']").datetimepicker({
+            format: "yyyy-mm-dd hh:ii",
+            autoclose: true
+        });
+
+        $(".file-upload").fileinput({
+            uploadUrl: ctx + 'common/upload',
+            maxFileCount: 1,
+            autoReplace: true
+        }).on('fileuploaded', function (event, data, previewId, index) {
+            $("input[name='" + event.currentTarget.id + "']").val(data.response.url)
+        }).on('fileremoved', function (event, id, index) {
+            $("input[name='" + event.currentTarget.id + "']").val('')
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改学生信息')" />
+    <th:block th:include="include :: datetimepicker-css" />
+    <th:block th:include="include :: bootstrap-fileinput-css" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-nczxxjinfo-edit" th:object="${xjbxsInfo}">
+            <input name="id" th:field="*{id}" type="hidden">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">年级：</label>
+                <div class="col-sm-3">
+                    <select name="nj" class="form-control m-b" th:with="type=${@dict.getType('nczx_xjsnj')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{nj}"></option>
+                    </select>
+                </div>
+                <label class="col-sm-3 control-label">班级：</label>
+                <div class="col-sm-3">
+                    <input name="bj" th:field="*{bj}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">班主任：</label>
+                <div class="col-sm-3">
+                    <input name="bzr" th:field="*{bzr}" class="form-control" type="text">
+                </div>
+                <label class="col-sm-3 control-label">学籍号：</label>
+                <div class="col-sm-3">
+                    <input name="xjh" th:field="*{xjh}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">考生号：</label>
+                <div class="col-sm-3">
+                    <input name="ksh" th:field="*{ksh}" class="form-control" type="text">
+                </div>
+                <label class="col-sm-3 control-label">姓名：</label>
+                <div class="col-sm-3">
+                    <input name="xm" th:field="*{xm}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">性别：</label>
+                <div class="col-sm-3">
+                    <input name="xb" th:field="*{xb}" class="form-control" type="text">
+                </div>
+                <label class="col-sm-3 control-label">民族：</label>
+                <div class="col-sm-3">
+                    <input name="mz" th:field="*{mz}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">出生日期：</label>
+                <div class="col-sm-3">
+                    <div class="input-group date">
+                        <input name="csrq" th:value="${#dates.format(xjbxsInfo.csrq, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    </div>
+                </div>
+                <label class="col-sm-3 control-label">政治面貌：</label>
+                <div class="col-sm-3">
+                    <input name="zzmm" th:field="*{zzmm}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">身份证号码：</label>
+                <div class="col-sm-3">
+                    <input name="sfzh" th:field="*{sfzh}" class="form-control" type="text">
+                </div>
+                <label class="col-sm-3 control-label">户口性质：</label>
+                <div class="col-sm-3">
+                    <input name="hkxz" th:field="*{hkxz}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">贫困等级：</label>
+                <div class="col-sm-3">
+                    <input name="pkdj" th:field="*{pkdj}" class="form-control" type="text">
+                </div>
+                <label class="col-sm-3 control-label">生源地州：</label>
+                <div class="col-sm-3">
+                    <input name="sydz" th:field="*{sydz}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">县区：</label>
+                <div class="col-sm-3">
+                    <input name="xianqu" th:field="*{xianqu}" class="form-control" type="text">
+                </div>
+                <label class="col-sm-3 control-label">联系电话：</label>
+                <div class="col-sm-3">
+                    <input name="lxdh" th:field="*{lxdh}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">家庭住址：</label>
+                <div class="col-sm-8">
+                    <input name="jtzz" th:field="*{jtzz}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">家长姓名：</label>
+                <div class="col-sm-3">
+                    <input name="jzxm" th:field="*{jzxm}" class="form-control" type="text">
+                </div>
+                <label class="col-sm-3 control-label">家长联系电话：</label>
+                <div class="col-sm-3">
+                    <input name="jzlxdh" th:field="*{jzlxdh}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">是否内初班毕业：</label>
+                <div class="col-sm-3">
+                    <select name="sfncbby" class="form-control m-b" th:with="type=${@dict.getType('yw_yes_no')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{sfncbby}"></option>
+                    </select>
+                </div>
+                <label class="col-sm-3 control-label">中考成绩：</label>
+                <div class="col-sm-3">
+                    <input name="zkfs" th:field="*{zkfs}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">初中毕业学校：</label>
+                <div class="col-sm-3">
+                    <input name="ncbbyxx" th:field="*{ncbbyxx}" class="form-control" type="text">
+                </div>
+                <label class="col-sm-3 control-label">在校状态：</label>
+                <div class="col-sm-3">
+                    <select name="zxzt" class="form-control m-b" th:with="type=${@dict.getType('nczx_student_zxzt')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{zxzt}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">学生照片：</label>
+                <div class="col-sm-8">
+                    <input type="hidden" name="stupic">
+                    <div class="file-loading">
+                        <input class="form-control file-upload" id="stupic" name="file" type="file">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+    <th:block th:include="include :: bootstrap-fileinput-js" />
+    <script th:inline="javascript">
+        var prefix = ctx + "nczxxjinfo/nczxxjinfo";
+        $("#form-nczxxjinfo-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-nczxxjinfo-edit').serialize());
+            }
+        }
+
+        $("input[name='csrq']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+        $(".file-upload").fileinput({
+            uploadUrl: ctx + 'common/upload',
+            maxFileCount: 1,
+            autoReplace: true
+        }).on('fileuploaded', function (event, data, previewId, index) {
+            $("input[name='" + event.currentTarget.id + "']").val(data.response.url)
+        }).on('fileremoved', function (event, id, index) {
+            $("input[name='" + event.currentTarget.id + "']").val('')
+        })
+    </script>
+</body>
+</html>

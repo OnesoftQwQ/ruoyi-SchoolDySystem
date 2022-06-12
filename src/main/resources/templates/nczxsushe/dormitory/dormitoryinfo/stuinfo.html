@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('学生信息')" />
+</head>
+<style>
+    .tdtextbold{
+        font-weight: 600;
+    }
+    .widthh{
+        width: 150px;
+    }
+    #sushecheckdetail{
+        text-align: center;
+    }
+</style>
+<body class="white-bg">
+<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+    <form class="form-horizontal m">
+        <div class="btn btn-success  dim" style="margin-bottom: 10px;" type="button" id="printbtn"><i class="fa fa-print"></i>&nbsp;打印此表</div><br>
+        <table class="table table-bordered" id="sushecheckdetail">
+            <tbody>
+            <tr><th colspan="12" style="text-align: center;font-size: 20px"><span style="float: left;font-size: 15px;color: #ff0000;" th:text="${dormitorystuinfo.dormitoryType}"></span>南仓中学<span th:text="${dormitorystuinfo.dormitoryNum}"></span>宿舍住宿生信息表</th></tr>
+            <tr>
+                <td class="tdtextbold">序号</td>
+                <td class="tdtextbold">年级</td>
+                <td class="tdtextbold">班级</td>
+                <td class="tdtextbold">宿舍号</td>
+                <td class="tdtextbold">床号</td>
+                <td class="tdtextbold">姓名</td>
+                <td class="tdtextbold">联系电话</td>
+                <td class="tdtextbold">家庭住址</td>
+                <td class="tdtextbold">住宿状态</td>
+                <td class="tdtextbold">入住时间</td>
+                <td class="tdtextbold">退宿时间</td>
+                <td class="tdtextbold">学生照片</td>
+            </tr>
+            <tr th:each="stulist:${dormitorystuinfo.dormitoryStumanageList}">
+                <td th:text="${stulistStat.index+1}"></td>
+                <td th:text="${stulist.stuGrade}"></td>
+                <td th:text="${stulist.stuClass}"></td>
+                <td th:text="${stulist.dormitoryNum}"></td>
+                <td th:text="${stulist.stuBedno}"></td>
+                <td th:text="${stulist.stuName}"></td>
+                <td th:text="${stulist.stuTell}"></td>
+                <td th:text="${stulist.stuAddress}"></td>
+                <td><span th:if="${stulist.stustatus}=='0'" class="badge badge-primary">在住</span><span th:if="${stulist.stustatus}=='1'" class="badge badge-danger">已退宿</span></td>
+                <td th:text="${#dates.format(stulist.inDate, 'yyyy-MM-dd')}"></td>
+                <td th:text="${#dates.format(stulist.outDate, 'yyyy-MM-dd') !=null ? #dates.format(stulist.outDate, 'yyyy-MM-dd') : '无退宿'}"></td>
+                <td>
+                    <img th:src="(${#strings.isEmpty(stulist.stuAvatar)}) ? @{/img/moren.jpg} : @{${stulist.stuAvatar}}"  width="55" height="70" />
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+<th:block th:include="include :: footer" />
+<script src="../static/ruoyi/js/print.js" th:src="@{/ruoyi/js/print.js}"></script>
+
+<script th:inline="javascript">
+    $(function() {
+        //console.log([[${dormitorystuinfo}]])
+    });
+
+</script>
+<script type="text/javascript">
+
+    document.getElementById('printbtn').onclick = function () {
+        Print('#sushecheckdetail', {
+            onStart: function () {
+
+                console.log('onStart', new Date())
+            },
+            onEnd: function () {
+                console.log('onEnd', new Date())
+            },
+            getStyle: function() {
+                var str = "",
+                    styles = document.querySelectorAll('style,link');
+                console.log(styles);
+                for (var i = 0; i < styles.length; i++) {
+                    str += styles[i].outerHTML;
+                }
+                return str;
+            }
+        });
+    }
+</script>
+</body>
+</html>

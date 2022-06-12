@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.nczxsushe.dormitory.mapper.DormitoryManageMapper">
+
+    <resultMap type="DormitoryManage" id="DormitoryManageResult">
+        <result property="id"    column="id"    />
+        <result property="dormitoryNum"    column="dormitory_num"    />
+        <result property="dormitoryType"    column="dormitory_type"    />
+        <result property="dormitoryRegion"    column="dormitory_region"    />
+        <result property="dormitoryManager"    column="dormitory_manager"    />
+        <result property="remark"    column="remark"    />
+        <result property="status"    column="status"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="createBy"    column="create_by"    />
+    </resultMap>
+
+    <resultMap id="DormitoryManageDormitoryStumanageResult" type="DormitoryManage" extends="DormitoryManageResult">
+        <collection property="dormitoryStumanageList" notNullColumn="sid" javaType="java.util.List" resultMap="DormitoryStumanageResult" />
+    </resultMap>
+
+    <resultMap type="DormitoryStumanage" id="DormitoryStumanageResult">
+        <result property="sid"    column="sid"    />
+        <result property="stuNo"    column="stu_no"    />
+        <result property="stuName"    column="stu_name"    />
+        <result property="stuGrade"    column="stu_grade"    />
+        <result property="stuClass"    column="stu_class"    />
+        <result property="stuBedno"    column="stu_bedno"    />
+        <result property="stuTell"    column="stu_tell"    />
+        <result property="stuAddress"    column="stu_address"    />
+        <result property="stuAvatar"    column="stu_avatar"    />
+        <result property="stustatus"    column="stustatus"    />
+        <result property="inDate"    column="in_date"    />
+        <result property="dormitoryNum"    column="dormitory_num"    />
+    </resultMap>
+
+    <sql id="selectDormitoryManageVo">
+        select id, dormitory_num, dormitory_type, dormitory_region, dormitory_manager, remark, status, create_time, update_time, create_by from nczx_dormitory_manage
+    </sql>
+
+    <select id="selectDormitoryManageList" parameterType="DormitoryManage" resultMap="DormitoryManageResult">
+        <include refid="selectDormitoryManageVo"/>
+        <where>
+            <if test="dormitoryNum != null "> and dormitory_num = #{dormitoryNum}</if>
+            <if test="dormitoryType != null  and dormitoryType != ''"> and dormitory_type = #{dormitoryType}</if>
+            <if test="dormitoryManager != null  and dormitoryManager != ''"> and dormitory_manager like concat('%', #{dormitoryManager}, '%')</if>
+            <if test="status != null "> and status = #{status}</if>
+        </where>
+    </select>
+
+    <select id="selectDormitoryManageInfoById" parameterType="Long" resultMap="DormitoryManageDormitoryStumanageResult">
+        select a.id, a.dormitory_num, a.dormitory_type, a.dormitory_region, a.dormitory_manager,
+               b.sid, b.stu_no, b.stu_name, b.stu_grade, b.stu_class, b.stu_bedno, b.stu_tell, b.stu_address, b.stu_avatar, b.stustatus, b.in_date, b.out_date,  b.create_by, b.remark
+        from nczx_dormitory_manage a
+                 left join nczx_dormitory_stumanage b on b.dormitory_num = a.dormitory_num
+        where a.id = #{id}
+    </select>
+
+    <select id="selectDormitoryManageAll" resultMap="DormitoryManageResult">
+        <include refid="selectDormitoryManageVo"/>
+    </select>
+
+    <select id="selectDormitoryManageById" parameterType="Long" resultMap="DormitoryManageResult">
+        <include refid="selectDormitoryManageVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertDormitoryManage" parameterType="DormitoryManage" useGeneratedKeys="true" keyProperty="id">
+        insert into nczx_dormitory_manage
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="dormitoryNum != null">dormitory_num,</if>
+            <if test="dormitoryType != null">dormitory_type,</if>
+            <if test="dormitoryRegion != null">dormitory_region,</if>
+            <if test="dormitoryManager != null">dormitory_manager,</if>
+            <if test="remark != null">remark,</if>
+            <if test="status != null">status,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="createBy != null">create_by,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="dormitoryNum != null">#{dormitoryNum},</if>
+            <if test="dormitoryType != null">#{dormitoryType},</if>
+            <if test="dormitoryRegion != null">#{dormitoryRegion},</if>
+            <if test="dormitoryManager != null">#{dormitoryManager},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+        </trim>
+    </insert>
+
+    <update id="updateDormitoryManage" parameterType="DormitoryManage">
+        update nczx_dormitory_manage
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="dormitoryNum != null">dormitory_num = #{dormitoryNum},</if>
+            <if test="dormitoryType != null">dormitory_type = #{dormitoryType},</if>
+            <if test="dormitoryRegion != null">dormitory_region = #{dormitoryRegion},</if>
+            <if test="dormitoryManager != null">dormitory_manager = #{dormitoryManager},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDormitoryManageById" parameterType="Long">
+        delete from nczx_dormitory_manage where id = #{id}
+    </delete>
+
+    <delete id="deleteDormitoryManageByIds" parameterType="String">
+        delete from nczx_dormitory_manage where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

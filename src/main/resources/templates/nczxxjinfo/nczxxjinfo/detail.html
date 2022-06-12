@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('学生信息卡')" />
+</head>
+<style>
+    .tdtextbold{
+        font-weight: 600;
+    }
+    .widthh{
+        width: 150px;
+    }
+    .width{
+        width: 200px;
+    }
+    .tdstyle{
+        border: 1px solid #009866;
+        text-align: center;
+    }
+</style>
+<body class="white-bg">
+<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+    <form class="form-horizontal m">
+        <div class="btn btn-success  dim" style="margin-bottom: 10px;" type="button" id="printbtn"><i class="fa fa-print"></i>&nbsp;打印此表</div><br>
+        <table class="table table-bordered" id="ngbstuinfo">
+            <tbody>
+            <tr>
+                <td colspan="6" style="text-align: center;font-size: 20px;font-weight: bold;">中学学生信息卡</td>
+            </tr>
+            <tr>
+                <td class="tdstyle">年级</td>
+                <td class="tdstyle"><label th:text="${ngbstuinfo.nj}"></label></td>
+                <td class="tdstyle">班级</td>
+                <td class="tdstyle"><label th:text="${ngbstuinfo.bj}"></label></td>
+                <td class="tdstyle">班主任</td>
+                <td class="tdstyle"><label th:text="${ngbstuinfo.bzr}"></label></td>
+            </tr>
+            <tr>
+                <td class="tdstyle">学籍号</td>
+                <td class="tdstyle"><label th:text="${ngbstuinfo.xjh}"></label></td>
+                <td class="tdstyle">考生号</td>
+                <td class="tdstyle"><label th:text="${ngbstuinfo.ksh}"></label></td>
+                <td class="tdstyle">姓名</td>
+                <td class="tdstyle"><label th:text="${ngbstuinfo.xm}"></label></td>
+            </tr>
+            <tr>
+                <td class="tdstyle">性别</td>
+                <td class="tdstyle"><label th:text="${@dict.getLabel('sys_user_sex', ngbstuinfo.xb)}"></label></td>
+                <td class="tdstyle">民族</td>
+                <td class="tdstyle"><label th:text="${ngbstuinfo.mz}"></label></td>
+                <td class="tdstyle">出生日期</td>
+                <td class="tdstyle"><label th:text="${#dates.format(ngbstuinfo.csrq, 'yyyy-MM-dd')}"></label></td>
+            </tr>
+            <tr>
+                <td class="tdstyle">政治面貌</td>
+                <td class="tdstyle"><label th:text="${ngbstuinfo.zzmm}"></label></td>
+                <td class="tdstyle">身份证号码</td>
+                <td class="tdstyle"><label th:text="${ngbstuinfo.sfzh}"></label></td>
+                <td class="tdstyle">户口性质</td>
+                <td class="tdstyle"><label th:text="${ngbstuinfo.hkxz}"></label></td>
+            </tr>
+            <tr>
+                <td class="tdstyle">贫困等级</td>
+                <td class="tdstyle"><label th:text="${ngbstuinfo.pkdj}"></label></td>
+                <td class="tdstyle">生源地州</td>
+                <td class="tdstyle"><label th:text="${ngbstuinfo.sydz}"></label></td>
+                <td class="tdstyle">县区</td>
+                <td class="tdstyle"><label th:text="${ngbstuinfo.xianqu}"></label></td>
+            </tr>
+            <tr>
+                <td class="tdstyle">家庭住址</td>
+                <td class="tdstyle" colspan="5"><label th:text="${ngbstuinfo.jtzz}"></label></td>
+            </tr>
+            <tr>
+                <td class="tdstyle">联系电话</td>
+                <td class="tdstyle"><label th:text="${ngbstuinfo.lxdh}"></label></td>
+                <td class="tdstyle">家长姓名</td>
+                <td class="tdstyle"><label th:text="${ngbstuinfo.jzxm}"></label></td>
+                <td class="tdstyle">家长联系电话</td>
+                <td class="tdstyle"><label th:text="${ngbstuinfo.jzlxdh}"></label></td>
+            </tr>
+            <tr>
+                <td class="tdstyle">是否内初班毕业</td>
+                <td class="tdstyle"><label th:text="${@dict.getLabel('yw_yes_no', ngbstuinfo.sfncbby)}"></label></td>
+                <td class="tdstyle">中考成绩</td>
+                <td class="tdstyle"><label th:text="${ngbstuinfo.zkfs}"></label></td>
+                <td class="tdstyle">初中毕业学校</td>
+                <td class="tdstyle"><label th:text="${ngbstuinfo.ncbbyxx}"></label></td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+<th:block th:include="include :: footer" />
+<script src="../static/ruoyi/js/print.js" th:src="@{/ruoyi/js/print.js}"></script>
+<script type="text/javascript">
+    document.getElementById('printbtn').onclick = function () {
+        Print('#ngbstuinfo', {
+            onStart: function () {
+                console.log('onStart', new Date())
+            },
+            onEnd: function () {
+                console.log('onEnd', new Date())
+            },
+            getStyle: function() {
+                var str = "",
+                    styles = document.querySelectorAll('style,link');
+                console.log(styles);
+                for (var i = 0; i < styles.length; i++) {
+                    str += styles[i].outerHTML;
+                }
+                return str;
+            }
+        });
+    }
+        $(function () {
+        });
+</script>
+</body>
+</html>

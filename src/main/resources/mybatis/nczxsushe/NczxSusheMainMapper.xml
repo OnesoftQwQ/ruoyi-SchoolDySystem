@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.nczxsushe.sushe.mapper.NczxSusheMainMapper">
+    
+    <resultMap type="NczxSusheMain" id="NczxSusheMainResult">
+        <result property="id"    column="id"    />
+        <result property="weekname"    column="weekname"    />
+        <result property="weeknum"    column="weeknum"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="checkedBy"    column="checked_by"    />
+    </resultMap>
+
+    <resultMap id="NczxSusheMainNczxSusheSubResult" type="NczxSusheMain" extends="NczxSusheMainResult">
+        <collection property="nczxSusheSubList" notNullColumn="id" javaType="java.util.List" resultMap="NczxSusheSubResult" />
+    </resultMap>
+
+    <resultMap type="NczxSusheSub" id="NczxSusheSubResult">
+        <result property="id"    column="id"    />
+        <result property="pid"    column="pid"    />
+        <result property="grade"    column="grade"    />
+        <result property="stuclass"    column="stuclass"    />
+        <result property="room"    column="room"    />
+        <result property="bad"    column="bad"    />
+        <result property="sex"    column="sex"    />
+        <result property="standard"    column="standard"    />
+        <result property="standardreason"    column="standardreason"    />
+        <result property="checkdate"    column="checkdate"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="createBy"    column="create_by"    />
+    </resultMap>
+
+    <sql id="selectNczxSusheMainVo">
+        select id, weekname, weeknum, create_time, update_time, create_by, checked_by from nczx_sushe_main
+    </sql>
+
+    <select id="selectNczxSusheMainList" parameterType="NczxSusheMain" resultMap="NczxSusheMainResult">
+        <include refid="selectNczxSusheMainVo"/>
+        <where>  
+            <if test="weekname != null  and weekname != ''"> and weekname = #{weekname}</if>
+            <if test="weeknum != null  and weeknum != ''"> and weeknum = #{weeknum}</if>
+            <if test="checkedBy != null  and checkedBy != ''"> and checked_by = #{checkedBy}</if>
+        </where>
+    </select>
+    
+    <select id="selectNczxSusheMainById" parameterType="Long" resultMap="NczxSusheMainNczxSusheSubResult">
+        select a.id, a.weekname, a.weeknum, a.create_time, a.update_time, a.create_by, a.checked_by,
+            b.id, b.pid, b.grade, b.stuclass, b.room, b.bad, b.sex, b.standard, b.standardreason, b.checkdate, b.create_time, b.update_time, b.create_by
+        from nczx_sushe_main a
+        left join nczx_sushe_sub b on b.pid = a.id
+        where a.id = #{id}
+    </select>
+        
+    <insert id="insertNczxSusheMain" parameterType="NczxSusheMain" useGeneratedKeys="true" keyProperty="id">
+        insert into nczx_sushe_main
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="weekname != null">weekname,</if>
+            <if test="weeknum != null">weeknum,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="checkedBy != null">checked_by,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="weekname != null">#{weekname},</if>
+            <if test="weeknum != null">#{weeknum},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="checkedBy != null">#{checkedBy},</if>
+         </trim>
+    </insert>
+
+    <update id="updateNczxSusheMain" parameterType="NczxSusheMain">
+        update nczx_sushe_main
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="weekname != null">weekname = #{weekname},</if>
+            <if test="weeknum != null">weeknum = #{weeknum},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="checkedBy != null">checked_by = #{checkedBy},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteNczxSusheMainById" parameterType="Long">
+        delete from nczx_sushe_main where id = #{id}
+    </delete>
+
+    <delete id="deleteNczxSusheMainByIds" parameterType="String">
+        delete from nczx_sushe_main where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+    <delete id="deleteNczxSusheSubByPids" parameterType="String">
+        delete from nczx_sushe_sub where pid in 
+        <foreach item="pid" collection="array" open="(" separator="," close=")">
+            #{pid}
+        </foreach>
+    </delete>
+
+    <delete id="deleteNczxSusheSubByPid" parameterType="Long">
+        delete from nczx_sushe_sub where pid = #{pid}
+    </delete>
+
+    <insert id="batchNczxSusheSub">
+        insert into nczx_sushe_sub( id, pid, grade, stuclass, room, bad, sex, standard, standardreason, checkdate, create_time, update_time, create_by) values
+		<foreach item="item" index="index" collection="list" separator=",">
+            ( #{item.id}, #{item.pid}, #{item.grade}, #{item.stuclass}, #{item.room}, #{item.bad}, #{item.sex}, #{item.standard}, #{item.standardreason}, #{item.checkdate}, #{item.createTime}, #{item.updateTime}, #{item.createBy})
+        </foreach>
+    </insert>
+
+</mapper>

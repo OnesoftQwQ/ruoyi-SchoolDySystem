@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('谈心谈话记录详情')" />
+    <title>谈心谈话记录详情</title>
+</head>
+<style>
+    .tdtextbold{
+        font-weight: 600;
+    }
+    .widthh{
+        width: 150px;
+    }
+    #studenttalkdetail{
+        border: 1px solid #7e7e7e;
+    }
+</style>
+<body class="white-bg">
+<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+    <form class="form-horizontal m">
+        <div class="btn btn-success  dim" style="margin-bottom: 10px;" type="button" id="printbtn"><i class="fa fa-print"></i>&nbsp;打印此表</div><br>
+        <table class="table table-bordered" id="studenttalkdetail">
+            <tbody>
+            <tr><th colspan="4" style="text-align: center;font-size: 20px">中学教师与学生“手拉手”谈心谈话记录表&nbsp;<span id="nowmonth"></span></th></tr>
+            <tr>
+                <td class="tdtextbold widthh">教师姓名：</td>
+                <td th:text="${studenttalk.teachername}"></td>
+                <td class="tdtextbold">所属部门：</td>
+                <td th:text="${@dict.getLabel('sys_dept_list', studenttalk.teacherorg)}"></td>
+            </tr>
+            <tr>
+                <td class="tdtextbold">学生姓名：</td>
+                <td th:text="${studenttalk.stuname}"></td>
+                <td class="tdtextbold">学生性别：</td>
+                <td th:text="${@dict.getLabel('sys_user_sex', studenttalk.stusex)}"></td>
+            </tr>
+            <tr>
+                <td class="tdtextbold">学生班级：</td>
+                <td th:text="${studenttalk.stuname}"></td>
+                <td class="tdtextbold">家长联系方式：</td>
+                <td th:text="${@dict.getLabel('sys_user_sex', studenttalk.stusex)}"></td>
+            </tr>
+            <tr>
+                <td class="tdtextbold">谈话时间：</td>
+                <td th:text="${#dates.format(studenttalk.talktime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                <td class="tdtextbold">谈话地点：</td>
+                <td th:text="${studenttalk.talkplace}"></td>
+            </tr>
+            <tr>
+                <td class="tdtextbold">受帮扶学生情况：</td>
+                <td colspan="3" th:text="${studenttalk.talkcontent}"></td>
+            </tr>
+            <tr>
+                <td class="tdtextbold">帮扶措施及效果：</td>
+                <td colspan="3" th:text="${studenttalk.talkresult}"></td>
+            </tr>
+            <tr>
+                <td class="tdtextbold">谈话图片：</td>
+                <td colspan="3" style="text-align: center;"><img th:src="@{${studenttalk.talkimg}}" width="320" height="220" /></td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+<th:block th:include="include :: footer" />
+<script src="../static/ruoyi/js/print.js" th:src="@{/ruoyi/js/print.js}"></script>
+<script type="text/javascript">
+    document.getElementById('printbtn').onclick = function () {
+        Print('#studenttalkdetail', {
+            onStart: function () {
+                console.log('onStart', new Date())
+            },
+            onEnd: function () {
+                console.log('onEnd', new Date())
+            },
+            getStyle: function() {
+                var str = "",
+                    styles = document.querySelectorAll('style,link');
+                console.log(styles);
+                for (var i = 0; i < styles.length; i++) {
+                    str += styles[i].outerHTML;
+                }
+                return str;
+            }
+        });
+    }
+        $(function () {
+            $("#nowmonth").html(dateUtil.getZhNowMonth());
+        });
+</script>
+</body>
+</html>

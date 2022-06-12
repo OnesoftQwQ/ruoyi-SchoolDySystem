@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.nczxxj.nczxxjinfo.mapper.XjbxsInfoMapper">
+    
+    <resultMap type="XjbxsInfo" id="XjbxsInfoResult">
+        <result property="id"    column="id"    />
+        <result property="nj"    column="nj"    />
+        <result property="bj"    column="bj"    />
+        <result property="bzr"    column="bzr"    />
+        <result property="xjh"    column="xjh"    />
+        <result property="ksh"    column="ksh"    />
+        <result property="xm"    column="xm"    />
+        <result property="xb"    column="xb"    />
+        <result property="mz"    column="mz"    />
+        <result property="csrq"    column="csrq"    />
+        <result property="zzmm"    column="zzmm"    />
+        <result property="sfzh"    column="sfzh"    />
+        <result property="hkxz"    column="hkxz"    />
+        <result property="pkdj"    column="pkdj"    />
+        <result property="sydz"    column="sydz"    />
+        <result property="xianqu"    column="xianqu"    />
+        <result property="jtzz"    column="jtzz"    />
+        <result property="lxdh"    column="lxdh"    />
+        <result property="jzxm"    column="jzxm"    />
+        <result property="jzlxdh"    column="jzlxdh"    />
+        <result property="sfncbby"    column="sfncbby"    />
+        <result property="zkfs"    column="zkfs"    />
+        <result property="ncbbyxx"    column="ncbbyxx"    />
+        <result property="zxzt"    column="zxzt"    />
+        <result property="stupic"    column="stupic"    />
+    </resultMap>
+
+    <sql id="selectXjbxsInfoVo">
+        select id, nj, bj, bzr, xjh, ksh, xm, xb, mz, csrq, zzmm, sfzh, hkxz, pkdj, sydz, xianqu, jtzz, lxdh, jzxm, jzlxdh, sfncbby, zkfs, ncbbyxx, zxzt, stupic from nczx_xjbxs_info
+    </sql>
+
+    <select id="selectXjbxsInfoList" parameterType="XjbxsInfo" resultMap="XjbxsInfoResult">
+        <include refid="selectXjbxsInfoVo"/>
+        <where>  
+            <if test="nj != null  and nj != ''"> and nj = #{nj}</if>
+            <if test="xm != null  and xm != ''"> and xm = #{xm}</if>
+            <if test="xb != null "> and xb = #{xb}</if>
+            <if test="mz != null  and mz != ''"> and mz = #{mz}</if>
+            <if test="zxzt != null "> and zxzt = #{zxzt}</if>
+            <if test="stupic != null  and stupic != ''"> and stupic = #{stupic}</if>
+        </where>
+    </select>
+    
+    <select id="selectXjbxsInfoById" parameterType="Long" resultMap="XjbxsInfoResult">
+        <include refid="selectXjbxsInfoVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertXjbxsInfo" parameterType="XjbxsInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into nczx_xjbxs_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="nj != null">nj,</if>
+            <if test="bj != null">bj,</if>
+            <if test="bzr != null">bzr,</if>
+            <if test="xjh != null">xjh,</if>
+            <if test="ksh != null">ksh,</if>
+            <if test="xm != null">xm,</if>
+            <if test="xb != null">xb,</if>
+            <if test="mz != null">mz,</if>
+            <if test="csrq != null">csrq,</if>
+            <if test="zzmm != null">zzmm,</if>
+            <if test="sfzh != null">sfzh,</if>
+            <if test="hkxz != null">hkxz,</if>
+            <if test="pkdj != null">pkdj,</if>
+            <if test="sydz != null">sydz,</if>
+            <if test="xianqu != null">xianqu,</if>
+            <if test="jtzz != null">jtzz,</if>
+            <if test="lxdh != null">lxdh,</if>
+            <if test="jzxm != null">jzxm,</if>
+            <if test="jzlxdh != null">jzlxdh,</if>
+            <if test="sfncbby != null">sfncbby,</if>
+            <if test="zkfs != null">zkfs,</if>
+            <if test="ncbbyxx != null">ncbbyxx,</if>
+            <if test="zxzt != null">zxzt,</if>
+            <if test="stupic != null">stupic,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="nj != null">#{nj},</if>
+            <if test="bj != null">#{bj},</if>
+            <if test="bzr != null">#{bzr},</if>
+            <if test="xjh != null">#{xjh},</if>
+            <if test="ksh != null">#{ksh},</if>
+            <if test="xm != null">#{xm},</if>
+            <if test="xb != null">#{xb},</if>
+            <if test="mz != null">#{mz},</if>
+            <if test="csrq != null">#{csrq},</if>
+            <if test="zzmm != null">#{zzmm},</if>
+            <if test="sfzh != null">#{sfzh},</if>
+            <if test="hkxz != null">#{hkxz},</if>
+            <if test="pkdj != null">#{pkdj},</if>
+            <if test="sydz != null">#{sydz},</if>
+            <if test="xianqu != null">#{xianqu},</if>
+            <if test="jtzz != null">#{jtzz},</if>
+            <if test="lxdh != null">#{lxdh},</if>
+            <if test="jzxm != null">#{jzxm},</if>
+            <if test="jzlxdh != null">#{jzlxdh},</if>
+            <if test="sfncbby != null">#{sfncbby},</if>
+            <if test="zkfs != null">#{zkfs},</if>
+            <if test="ncbbyxx != null">#{ncbbyxx},</if>
+            <if test="zxzt != null">#{zxzt},</if>
+            <if test="stupic != null">#{stupic},</if>
+         </trim>
+    </insert>
+
+    <update id="updateXjbxsInfo" parameterType="XjbxsInfo">
+        update nczx_xjbxs_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="nj != null">nj = #{nj},</if>
+            <if test="bj != null">bj = #{bj},</if>
+            <if test="bzr != null">bzr = #{bzr},</if>
+            <if test="xjh != null">xjh = #{xjh},</if>
+            <if test="ksh != null">ksh = #{ksh},</if>
+            <if test="xm != null">xm = #{xm},</if>
+            <if test="xb != null">xb = #{xb},</if>
+            <if test="mz != null">mz = #{mz},</if>
+            <if test="csrq != null">csrq = #{csrq},</if>
+            <if test="zzmm != null">zzmm = #{zzmm},</if>
+            <if test="sfzh != null">sfzh = #{sfzh},</if>
+            <if test="hkxz != null">hkxz = #{hkxz},</if>
+            <if test="pkdj != null">pkdj = #{pkdj},</if>
+            <if test="sydz != null">sydz = #{sydz},</if>
+            <if test="xianqu != null">xianqu = #{xianqu},</if>
+            <if test="jtzz != null">jtzz = #{jtzz},</if>
+            <if test="lxdh != null">lxdh = #{lxdh},</if>
+            <if test="jzxm != null">jzxm = #{jzxm},</if>
+            <if test="jzlxdh != null">jzlxdh = #{jzlxdh},</if>
+            <if test="sfncbby != null">sfncbby = #{sfncbby},</if>
+            <if test="zkfs != null">zkfs = #{zkfs},</if>
+            <if test="ncbbyxx != null">ncbbyxx = #{ncbbyxx},</if>
+            <if test="zxzt != null">zxzt = #{zxzt},</if>
+            <if test="stupic != null">stupic = #{stupic},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteXjbxsInfoById" parameterType="Long">
+        delete from nczx_xjbxs_info where id = #{id}
+    </delete>
+
+    <delete id="deleteXjbxsInfoByIds" parameterType="String">
+        delete from nczx_xjbxs_info where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

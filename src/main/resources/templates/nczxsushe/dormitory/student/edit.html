@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改住宿生信息')" />
+    <th:block th:include="include :: datetimepicker-css" />
+    <th:block th:include="include :: bootstrap-fileinput-css"/>
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-stumanage-edit" th:object="${dormitoryStumanage}">
+            <input name="sid" th:field="*{sid}" type="hidden">
+            <div class="form-group">    
+                <label class="col-sm-2 control-label">宿舍编号：</label>
+                <div class="col-sm-4">
+                    <input name="dormitory_num" th:field="*{dormitoryNum}" class="form-control" type="text">
+                </div>
+                <label class="col-sm-2 control-label">学生姓名：</label>
+                <div class="col-sm-4">
+                    <input name="stuName" th:field="*{stuName}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-2 control-label">年级：</label>
+                <div class="col-sm-4">
+                    <select name="stuGrade" class="form-control m-b" th:with="type=${@dict.getType('sys_grade_num')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}" th:field="*{stuGrade}"></option>
+                    </select>
+                </div>
+                <label class="col-sm-2 control-label">班级：</label>
+                <div class="col-sm-4">
+                    <input name="stuClass" th:field="*{stuClass}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-2 control-label">床号：</label>
+                <div class="col-sm-4">
+                    <input name="stuBedno" th:field="*{stuBedno}" class="form-control" type="text">
+                </div>
+                <label class="col-sm-2 control-label">联系电话：</label>
+                <div class="col-sm-4">
+                    <input name="stuTell" th:field="*{stuTell}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">状态：</label>
+                <div class="col-sm-4">
+                    <div class="radio-box" th:each="dict : ${@dict.getType('sys_dormitory_status')}">
+                        <input type="radio" th:id="${'status_' + dict.dictCode}" name="status" th:value="${dict.dictValue}" th:field="*{stustatus}">
+                        <label th:for="${'status_' + dict.dictCode}" th:text="${dict.dictLabel}"></label>
+                    </div>
+                </div>
+                <label class="col-sm-2 control-label">家庭住址：</label>
+                <div class="col-sm-4">
+                    <input name="stuAddress" th:field="*{stuAddress}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">入住时间：</label>
+                <div class="col-sm-4">
+                    <div class="input-group date">
+                        <input name="inDate" readonly th:value="${#dates.format(dormitoryStumanage.inDate, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    </div>
+                </div>
+                <label class="col-sm-2 control-label">退宿时间：</label>
+                <div class="col-sm-4">
+                    <div class="input-group date">
+                        <input name="outDate" readonly th:value="${#dates.format(dormitoryStumanage.outDate, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" style="display: none">
+                <label class="col-sm-2 control-label">备注：</label>
+                <div class="col-sm-10">
+                    <input name="remark" th:field="*{remark}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-2 control-label">照片：</label>
+                <div class="col-sm-10">
+                    <input type="hidden" name="stuAvatar" th:field="*{stuAvatar}">
+                    <div class="file-loading">
+                        <input class="form-control file-upload" id="stuAvatar" name="file" type="file">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+    <th:block th:include="include :: bootstrap-fileinput-js"/>
+    <script th:inline="javascript">
+        var prefix = ctx + "nczxsushe/dormitory/student"
+        $("#form-stumanage-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-stumanage-edit').serialize());
+            }
+        }
+
+        $("input[name='inDate']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+
+        $("input[name='outDate']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+
+        $(".file-upload").each(function (i) {
+            var val = $("input[name='" + this.id + "']").val()
+            $(this).fileinput({
+                'uploadUrl': ctx + 'common/upload',
+                initialPreviewAsData: true,
+                initialPreview: [val],
+                maxFileCount: 1,
+                autoReplace: true
+            }).on('fileuploaded', function (event, data, previewId, index) {
+                $("input[name='" + event.currentTarget.id + "']").val(data.response.url)
+            }).on('fileremoved', function (event, id, index) {
+                $("input[name='" + event.currentTarget.id + "']").val('')
+            })
+            $(this).fileinput('_initFileActions');
+        });
+    </script>
+</body>
+</html>
